@@ -53,17 +53,6 @@ public class CarController {
         return ResponseEntity.created(uri).body(car);
     }
 
-
-    /*@GetMapping
-    public ResponseEntity<?> showAll(){
-        List<Car> cars = carRepository.findAll();
-        if (cars.size() == 0) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(cars);
-    }*/
-
     @GetMapping
     public ResponseEntity<?> completeFilter(
             @RequestParam(name="filter", required = false) String filter,
@@ -73,71 +62,6 @@ public class CarController {
         List<Car> cars = new CarFilter(order, filter, value, carRepository).getResults();
 
         if(cars.size() == 0) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(cars);
-
-    }
-
-    @GetMapping("/brand/{brand}")
-    public ResponseEntity<?> filterByBrand(@PathVariable String brand){
-        List<Car> cars = carRepository.findAllByBrand(brand);
-        if (cars.size() == 0) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(cars);
-    }
-
-    @GetMapping("/model/{model}")
-    public ResponseEntity<?> filterByModel(@PathVariable String model){
-        List<Car> cars = carRepository.findAllByModel(model);
-        if (cars.size() == 0) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(cars);
-    }
-
-    @GetMapping("/color/{color}")
-    public ResponseEntity<?> filterByColor(@PathVariable String color){
-        List<Car> cars = carRepository.findAllByColor(color);
-        if (cars.size() == 0) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(cars);
-    }
-
-    @GetMapping("/order/{field}")
-    public ResponseEntity<?> orderBy(@PathVariable String field) {
-        List<Car> cars = carRepository.findAll();
-        if (cars.size() == 0) {
-            return ResponseEntity.notFound().build();
-        }
-
-        if (field.equals("year")) {
-            Collections.sort(cars, (car, otherCar) -> {
-                if (car.getYear() > otherCar.getYear()) return -1;
-                if (car.getYear() < otherCar.getYear()) return 1;
-                return 0;
-            });
-        }
-
-        if (field.equals("price")) {
-            Collections.sort(cars, new Comparator<Car>() {
-                public int compare(Car car, Car otherCar) {
-                    return car.getPrice().compareTo(otherCar.getPrice());
-                }
-            });
-        }
-
-        if (field.equals("model")) {
-            Collections.sort(cars, new Comparator<Car>() {
-                public int compare(Car car, Car otherCar) {
-                    return car.getModel().compareTo(otherCar.getModel());
-                }
-            });
-        }
 
         return ResponseEntity.ok(cars);
 
