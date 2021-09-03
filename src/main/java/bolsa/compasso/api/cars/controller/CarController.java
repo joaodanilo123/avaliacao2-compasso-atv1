@@ -44,7 +44,7 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CarForm form, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<?> create(@RequestBody @Valid CarForm form, UriComponentsBuilder uriBuilder){
         Car car = form.convert();
         carRepository.save(car);
 

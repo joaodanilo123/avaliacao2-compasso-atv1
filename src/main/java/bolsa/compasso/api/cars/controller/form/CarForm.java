@@ -8,11 +8,17 @@ import java.math.BigDecimal;
 
 public class CarForm {
 
+    @NotNull
+    @NotEmpty
     private String model;
+    @NotNull
+    @NotEmpty
     private String brand;
+    @NotNull
+    private int year;
+
     private String color;
     private BigDecimal price;
-    private int year;
 
     public String getModel() {
         return model;
