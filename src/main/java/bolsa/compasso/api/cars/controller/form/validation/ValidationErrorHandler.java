@@ -1,4 +1,4 @@
-package bolsa.compasso.api.cars.controller.form.validacao;
+package bolsa.compasso.api.cars.controller.form.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

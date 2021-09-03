@@ -1,4 +1,4 @@
-package bolsa.compasso.api.cars.controller.form.validacao;
+package bolsa.compasso.api.cars.controller.form.validation;
 
 public class FormError {
     private String field;

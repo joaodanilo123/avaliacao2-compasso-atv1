@@ -1,6 +1,7 @@
 package bolsa.compasso.api.cars.controller;
 
 import bolsa.compasso.api.cars.controller.form.CarForm;
+import bolsa.compasso.api.cars.controller.form.validation.filter.CarFilter;
 import bolsa.compasso.api.cars.model.Car;
 import bolsa.compasso.api.cars.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,8 @@ public class CarController {
         return ResponseEntity.created(uri).body(car);
     }
 
-    @GetMapping
+
+    /*@GetMapping
     public ResponseEntity<?> showAll(){
         List<Car> cars = carRepository.findAll();
         if (cars.size() == 0) {
@@ -60,8 +62,21 @@ public class CarController {
         }
 
         return ResponseEntity.ok(cars);
-    }
+    }*/
 
+    @GetMapping
+    public ResponseEntity<?> completeFilter(
+            @RequestParam(name="filter", required = false) String filter,
+            @RequestParam(name="value", required = false) String value,
+            @RequestParam(name="order", required = false) String order
+    ){
+        List<Car> cars = new CarFilter(order, filter, value, carRepository).getResults();
+
+        if(cars.size() == 0) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(cars);
+
+    }
 
     @GetMapping("/brand/{brand}")
     public ResponseEntity<?> filterByBrand(@PathVariable String brand){
