@@ -5,13 +5,12 @@ import bolsa.compasso.api.cars.controller.form.validation.filter.options.CarOrde
 import bolsa.compasso.api.cars.model.Car;
 import bolsa.compasso.api.cars.repository.CarRepository;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class CarFilter {
 
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
 
     private CarOrderOptionsEnum orderBy;
     private CarFilterOptionsEnum filterBy;
@@ -42,17 +41,13 @@ public class CarFilter {
     }
 
     private List<Car> filter(){
-        List<Car> filteredCars;
 
-        filteredCars = switch (filterBy){
+        return switch (filterBy) {
             case ANY -> carRepository.findAll();
             case BRAND -> carRepository.findAllByBrand(filterValue);
             case COLOR -> carRepository.findAllByColor(filterValue);
             case MODEL -> carRepository.findAllByModel(filterValue);
         };
-
-        return filteredCars;
-
     }
 
     private List<Car> order(List<Car> filteredCarList){
@@ -60,17 +55,13 @@ public class CarFilter {
             case ANY:
                 break;
             case YEAR:
-                Collections.sort(filteredCarList, (car, otherCar) -> {
-                    if (car.getYear() > otherCar.getYear()) return -1;
-                    if (car.getYear() < otherCar.getYear()) return 1;
-                    return 0;
-                });
+                filteredCarList.sort((car, otherCar) -> Integer.compare(otherCar.getYear(), car.getYear()));
                 break;
             case MODEL:
-                Collections.sort(filteredCarList, Comparator.comparing(Car::getModel));
+                filteredCarList.sort(Comparator.comparing(Car::getModel));
                 break;
             case PRICE:
-                Collections.sort(filteredCarList, Comparator.comparing(Car::getPrice));
+                filteredCarList.sort(Comparator.comparing(Car::getPrice));
                 break;
         }
 
