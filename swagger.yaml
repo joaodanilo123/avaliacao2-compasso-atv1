@@ -1,0 +1,118 @@
+openapi: 3.0.1
+info:
+  title: API de carros
+  description: Api para controle de carros em uma concessionária.
+  version: "0.1"
+  contact:
+    name: João Danilo Zucolotto
+    email: joao@gmail.com
+    url: https://github.io/joaodanilo123
+
+components:
+  schemas:
+    car:
+      type: object
+      properties:
+        model:
+          type: string
+          description: Nome do modelo
+          example: "Civic"
+        brand:
+          type: string
+          example: "Honda"
+          description: Nome do fabricante
+        color:
+          type: string
+          example: "white"
+          description: Cor do exterior do carro
+        price:
+          type: number
+          example: 90000.99
+          description: preço do carro
+        year:
+          type: integer
+          example: 2018
+          description: ano de fabricacao
+
+paths:
+  /api/cars/build:
+    get:
+      summary: Cadastra carros para testar a api
+      responses:
+        200: 
+          description: Carros cadastrados com sucesso
+
+  /api/cars:
+    get:
+      summary: Recupera e filtra as informações de todos os carros
+      parameters:
+      - name: filter
+        description: "Filtro a ser utilizado (model, price ou color); precisa ser usado junto com value."
+        in: query
+        schema:
+          type: string
+        required: false
+        example: color
+      - name: value
+        description: "Valor a ser buscado, depende do filtro utilizado."
+        in: query
+        schema:
+          type: string
+        required: false
+        example: white
+      - name: order
+        description: "Ordenação dos resultados da busca (model, year ou price)."
+        in: query
+        schema:
+          type: string
+        required: false
+        example: year
+        
+      responses:
+        200: 
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/car"
+        404:
+          description: Nenhum registro encontrado
+    post:
+      summary: "Registra um carro no banco de dados."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/car"
+      responses:
+        201: 
+          description: "Carro cadastrado com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/car"  
+                      
+                  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+          
+          
